@@ -8,7 +8,9 @@
 ```
 /lib/core/network/        @security-owner @networking-owner
 /lib/core/storage/        @security-owner
-/lib/features/auth/       @security-owner
+/lib/domain/auth/         @security-owner
+/lib/data/auth/           @security-owner
+/lib/presentation/auth/   @security-owner
 /android/app/build.gradle.kts  @mobile-owner
 /.github/                 @platform-owner
 ```
@@ -21,7 +23,9 @@
 |-------------------------------|------------------------------------------------------------------|
 | `lib/core/network/`           | Auth refresh, token rotation, dedup logic. One bug = lockouts.   |
 | `lib/core/storage/`           | Secure-storage keys, token persistence.                          |
-| `lib/features/auth/`          | Login flows, session lifecycle.                                  |
+| `lib/domain/auth/`          | Auth domain contracts and use cases.                               |
+| `lib/data/auth/`            | Auth DTOs, API, repository impl, session persistence.            |
+| `lib/presentation/auth/`    | Login flows, session lifecycle UI.                                 |
 | `android/app/build.gradle.kts`| Signing config, flavors, SDK versions.                           |
 | `.github/`                    | CI pipeline — a bad change ships a broken release.              |
 

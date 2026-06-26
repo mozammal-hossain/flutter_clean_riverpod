@@ -2,16 +2,17 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/network/dio_client.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/api/todo_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/data_source/todo_mock_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/data_source/todo_remote_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/repository_impl/todo_repository_impl.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/repositories/todo_repository.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/usecases/create_todo_use_case.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/usecases/delete_todo_use_case.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/usecases/get_todos_use_case.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/usecases/toggle_todo_use_case.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/api/todo_api.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_mock_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/repository_impl/todo_repository_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/usecases/create_todo_use_case.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/usecases/delete_todo_use_case.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/usecases/get_todos_use_case.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/usecases/toggle_todo_use_case.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,15 +25,15 @@ TodoApi todoApi(Ref ref) {
   return TodoApi(ref.watch(dioProvider));
 }
 
-/// Default data source. Wires [TodoRemoteDataSource] to [todoApiProvider] so
-/// the full Clean Architecture data flow runs end-to-end against a real
-/// HTTP API.
+/// Default data source. Wires [TodoRemoteDataSourceImpl] to
+/// [todoApiProvider] so the full Clean Architecture data flow runs
+/// end-to-end against a real HTTP API.
 ///
 /// Tests and offline development override this provider with
 /// [todoMockDataSourceProvider].
 @Riverpod(keepAlive: true)
 TodoDataSource todoDataSource(Ref ref) {
-  return TodoRemoteDataSource(ref.watch(todoApiProvider));
+  return TodoRemoteDataSourceImpl(ref.watch(todoApiProvider));
 }
 
 /// In-memory data source used by tests and as an offline fallback.

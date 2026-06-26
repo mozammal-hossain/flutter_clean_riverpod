@@ -1,5 +1,5 @@
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 
 /// Bidirectional mapper between [TodoDto] (wire format) and [Todo] (domain).
 extension TodoDtoMapper on TodoDto {

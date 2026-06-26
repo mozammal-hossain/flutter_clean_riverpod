@@ -12,7 +12,7 @@
 
 - **Repo**: `flutter_clean_riverpod_boilerplate`
   (`/Users/bs1101/Personal/1.projects/flutter_clean_riverpod_boilerplate`).
-- **Stack**: Flutter 3.41.8 (via FVM), Clean Architecture feature-first,
+- **Stack**: Flutter 3.41.8 (via FVM), Clean Architecture layer-first,
   Riverpod with Retrofit/codegen, `fpdart` `Either<Failure, T>`, `go_router` with
   typed route names, Dio REST, ARB l10n, Material 3.
 - **Flavors**: dev / staging / prod. Entrypoints: `lib/main_dev.dart`,
@@ -29,7 +29,7 @@
 1. **Clean Architecture layering**: `presentation` and `data` both import
    `domain`; `domain` imports `core` only. `data -> presentation` is
    forbidden. Cross-feature access only via
-   `features/<x>/<x>_providers.dart`.
+   `presentation/<x>/riverpod/<x>_providers.dart`.
 2. **Errors are values**: repositories / use cases / controllers return
    `Future<Either<Failure, T>>`. `try` / `catch` is reserved for
    `bootstrap.dart`, the Dio interceptor, and tests.
@@ -50,7 +50,8 @@
 7. **Auth refresh** is centralized in the Dio interceptor (401 -> dedup ->
    retry once -> `onSessionExpired`). Don't re-implement in widgets.
 8. **CI** runs on `release*` tags. **CODEOWNERS** gates `core/network/`,
-   `core/storage/`, `features/auth/`, Android Gradle, `.github/`.
+   `core/storage/`, `domain/auth/`, `data/auth/`, `presentation/auth/`,
+   Android Gradle, `.github/`.
 
 ## Interaction Guidelines
 
@@ -166,7 +167,7 @@ flowchart LR
     D -->|imports| C
     C -->|imports| C2[other core/ submodules]
     C -.->|exception| N[core/network/dio_client.dart]
-    N -->|may import| A[features/auth/domain/]
+    N -->|may import| A[domain/auth/]
 ```
 
 | Layer            | May import from |
@@ -174,9 +175,9 @@ flowchart LR
 | `presentation/`  | `domain/`, `core/` |
 | `domain/`        | `core/` only (no features, no `data/`) |
 | `data/`          | `domain/`, `core/` |
-| `core/`          | Other `core/` submodules -- except `core/network/dio_client.dart`, which is allowed to import `features/auth/domain/` |
+| `core/`          | Other `core/` submodules -- except `core/network/dio_client.dart`, which is allowed to import `domain/auth/` |
 
-Cross-feature access only via `features/<x>/<x>_providers.dart`.
+Cross-feature access only via `presentation/<x>/riverpod/<x>_providers.dart`.
 
 ## Lint Rules
 
@@ -246,7 +247,7 @@ flowchart LR
   (`fieldRename: FieldRename.snake` is **not** used -- handle the rename
   manually in the JSON methods or via `@JsonKey` annotations).
 - Wire format -> entity translation lives in
-  `lib/features/<x>/data/mapper/<x>_mapper.dart`. Never import a DTO from
+  `lib/data/<x>/mapper/<x>_mapper.dart`. Never import a DTO from
   `domain/`.
 
 ## Logging
@@ -406,7 +407,8 @@ not introduce new `WidgetState` constants outside the existing theme.
 - :no_entry: Don't use `print` / `debugPrint` in production code.
 - :no_entry: Don't run a Flutter command without `fvm`.
 - :no_entry: Don't touch `core/network/`, `core/storage/`,
-  `features/auth/`, `android/app/build.gradle.kts`, or `.github/`
+  `domain/auth/`, `data/auth/`, `presentation/auth/`,
+  `android/app/build.gradle.kts`, or `.github/`
   without a code-owner review -- see
   [code-ownership.md](./docs/agents/code-ownership.md).
 - :no_entry: Don't re-enable the 3 disabled lint rules -- see
@@ -415,7 +417,7 @@ not introduce new `WidgetState` constants outside the existing theme.
 ## TL;DR for an agent
 
 - Flutter 3.41.8 via FVM -- always `fvm flutter ...` / `fvm dart ...`.
-- Clean Architecture, feature-first; **strict layering**, **Riverpod +
+- Clean Architecture, layer-first; **strict layering**, **Riverpod +
   codegen**, **Retrofit + freezed codegen for data layer**, **`Either<Failure, T>`**
   for errors.
 - Sealed UI states with exhaustive `switch`. `AppSize` +
@@ -427,6 +429,7 @@ not introduce new `WidgetState` constants outside the existing theme.
   retry once -> `onSessionExpired`); code-owner gated.
 - Tests use `mocktail` + `EitherAssertions`; no codegen.
 - CI runs on `release*` tags. CODEOWNERS gates `core/network`,
-  `core/storage`, `features/auth`, Android Gradle, `.github/`.
+  `core/storage`, `domain/auth`, `data/auth`, `presentation/auth`,
+  Android Gradle, `.github/`.
 - Before opening a PR: `dart format --set-exit-if-changed`,
   `flutter analyze`, `flutter test` -- all three must be clean.

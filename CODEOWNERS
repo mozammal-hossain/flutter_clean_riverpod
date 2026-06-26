@@ -7,7 +7,9 @@
 # Security / auth / refresh flow needs extra scrutiny.
 /lib/core/network/ @bs1101
 /lib/core/storage/ @bs1101
-/lib/features/auth/ @bs1101
+/lib/domain/auth/       @bs1101
+/lib/data/auth/         @bs1101
+/lib/presentation/auth/ @bs1101
 /android/app/build.gradle.kts @bs1101
 /android/app/proguard-rules.pro @bs1101
 

@@ -14,51 +14,53 @@ Pick a short feature name (singular noun). Confirm:
 ## Step 1 — Directory tree
 
 ```
-lib/features/<feature>/
-├── data/
-│   ├── datasources/
-│   │   ├── <feature>_remote_data_source.dart
-│   │   └── <feature>_local_data_source.dart      # only if needed
-│   ├── models/
-│   │   ├── <feature>_dto.dart
-│   │   └── <feature>_mapper.dart
-│   └── repositories/
-│       └── <feature>_repository_impl.dart
-├── domain/
-│   ├── entities/
-│   │   └── <feature>.dart
-│   ├── repositories/
-│   │   └── <feature>_repository.dart
-│   └── usecases/
-│       └── <verb>_<feature>.dart
-└── presentation/
-    ├── pages/
-    │   └── <feature>_page.dart
-    ├── widgets/
-    └── controllers/
-        └── <feature>_controller.dart
+lib/domain/<feature>/
+├── entities/
+│   └── <feature>.dart
+├── repositories/
+│   └── <feature>_repository.dart
+└── usecases/
+    └── <verb>_<feature>_use_case.dart
 
-<feature>_providers.dart     # Provider/NotifierProvider exports
+lib/data/<feature>/
+├── api/
+│   └── <feature>_api.dart
+├── data_source/
+│   ├── <feature>_remote_data_source.dart
+│   ├── <feature>_remote_data_source_impl.dart
+│   └── <feature>_local_data_source.dart      # only if needed
+├── mapper/
+│   └── <feature>_mapper.dart
+├── model/
+│   └── <feature>_dto.dart
+└── repository_impl/
+    └── <feature>_repository_impl.dart
+
+lib/presentation/<feature>/
+├── riverpod/
+│   └── <feature>_providers.dart
+└── widgets/
+    └── <feature>_page.dart
 ```
 
 ## Step 2 — Domain entity
 
-`domain/entities/<feature>.dart` — **pure Dart**. No Flutter, no Dio, no Riverpod imports.
+`lib/domain/<feature>/entities/<feature>.dart` — **pure Dart**. No Flutter, no Dio, no Riverpod imports.
 
 ## Step 3 — Repository contract
 
-`domain/repositories/<feature>_repository.dart` returns `Future<Either<Failure, T>>`.
+`lib/domain/<feature>/repositories/<feature>_repository.dart` returns `Future<Either<Failure, T>>`.
 
 ## Step 4 — Data layer
 
-- DTOs (`<feature>_dto.dart`) match the wire schema.
-- Mappers (`<feature>_mapper.dart`) convert DTO ↔ entity. Use `dynamic` calls only inside mappers — see [analyzer-overrides.md](./analyzer-overrides.md).
+- DTOs (`lib/data/<feature>/model/<feature>_dto.dart`) match the wire schema.
+- Mappers (`lib/data/<feature>/mapper/<feature>_mapper.dart`) convert DTO ↔ entity. Use `dynamic` calls only inside mappers — see [analyzer-overrides.md](./analyzer-overrides.md).
 - Remote data source talks to Dio via the central `dioClientProvider`.
 - Repository impl maps `DioException` → `Failure` and returns `Either`.
 
 ## Step 5 — Providers
 
-`<feature>_providers.dart` exposes:
+`lib/presentation/<feature>/riverpod/<feature>_providers.dart` exposes:
 
 - `repositoryProvider`
 - `featureControllerProvider` (or per-use-case providers)
@@ -74,16 +76,19 @@ Do **not** import this file from `core/`.
 
 ## Step 7 — Routes
 
-- Extend the relevant `*Routes` class in `lib/core/router/route_descriptor.dart`.
+- Extend the relevant `*Routes` class in `lib/core/router/app_router.dart`.
 - Register the `GoRoute` in `app_router.dart`.
 - If deep-linkable, add to the whitelist — see [deep-links.md](./deep-links.md).
 
 ## Step 8 — Tests
 
-- Repository: success + every Failure subclass (see [testing.md](./testing.md)).
-- Mapper: DTO ↔ entity + missing-field edges.
-- Controller: every sealed-state transition.
-- Widget: smoke test (loading + error + one data state).
+Mirror the layer layout under `test/`:
+
+- `test/data/<feature>/` — repository + mapper tests.
+- `test/domain/<feature>/` — use case tests.
+- `test/presentation/<feature>/` — controller + widget smoke tests.
+
+See [testing.md](./testing.md) for patterns.
 
 ## Step 9 — Localization
 

@@ -1,7 +1,7 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/entities/auth_user.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/repositories/auth_repository.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/presentation/riverpod/auth_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_user.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/repositories/auth_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/riverpod/auth_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';

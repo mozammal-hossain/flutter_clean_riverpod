@@ -1,8 +1,8 @@
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/auth_me_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/login_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/repository_impl/auth_repository_impl.dart'
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/auth_me_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/repository_impl/auth_repository_impl.dart'
     show AuthRepositoryImpl;
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/entities/auth_user.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_user.dart';
 
 /// Bidirectional mapper between auth wire-format DTOs and domain entities.
 extension AuthResponseMapper on LoginResponse {

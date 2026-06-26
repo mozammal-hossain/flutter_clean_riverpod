@@ -4,8 +4,8 @@ import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_error_widget.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_loading_indicator.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/presentation/riverpod/todo_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/riverpod/todo_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Detail page for a single Todo, reached via `/todos/:id` (e.g. from a

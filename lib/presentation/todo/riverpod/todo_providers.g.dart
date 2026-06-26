@@ -26,11 +26,11 @@ final todoApiProvider = Provider<TodoApi>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoApiRef = ProviderRef<TodoApi>;
-String _$todoDataSourceHash() => r'3e95ad1c0a6139c29be199e4622366ad03683244';
+String _$todoDataSourceHash() => r'b1d37726d6ec1104a6c3a5e92d2192004687dbc0';
 
-/// Default data source. Wires [TodoRemoteDataSource] to [todoApiProvider] so
-/// the full Clean Architecture data flow runs end-to-end against a real
-/// HTTP API.
+/// Default data source. Wires [TodoRemoteDataSourceImpl] to
+/// [todoApiProvider] so the full Clean Architecture data flow runs
+/// end-to-end against a real HTTP API.
 ///
 /// Tests and offline development override this provider with
 /// [todoMockDataSourceProvider].

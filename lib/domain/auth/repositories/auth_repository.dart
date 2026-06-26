@@ -1,5 +1,5 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/entities/auth_user.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_user.dart';
 import 'package:fpdart/fpdart.dart';
 
 /// Contract every auth implementation must satisfy.

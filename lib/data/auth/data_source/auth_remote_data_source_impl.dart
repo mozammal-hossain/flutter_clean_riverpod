@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/network/auth_interceptor.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/network/network_guard.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/api/auth_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/data_source/auth_remote_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/auth_me_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/login_request.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/login_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/refresh_token_request.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/refresh_token_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/api/auth_api.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/auth_me_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_request.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_response.dart';
 
 /// Retrofit-backed `AuthRemoteDataSource`.
 ///

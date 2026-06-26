@@ -1,6 +1,6 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/repositories/auth_repository.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/usecases/login_use_case.dart'
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/repositories/auth_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/auth/usecases/login_use_case.dart'
     show LoginUseCase;
 import 'package:fpdart/fpdart.dart';
 

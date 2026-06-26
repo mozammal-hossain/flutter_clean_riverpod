@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 import 'package:fpdart/fpdart.dart';
 
 /// Contract for any Todo data source. The mock implementation and a future
