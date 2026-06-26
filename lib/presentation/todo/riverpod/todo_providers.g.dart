@@ -26,14 +26,33 @@ final todoApiProvider = Provider<TodoApi>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoApiRef = ProviderRef<TodoApi>;
-String _$todoDataSourceHash() => r'b1d37726d6ec1104a6c3a5e92d2192004687dbc0';
+String _$todoRemoteSourceHash() => r'5eea68aa9e8ca94c350906de27fdd9266da8f278';
 
-/// Default data source. Wires [TodoRemoteDataSourceImpl] to
-/// [todoApiProvider] so the full Clean Architecture data flow runs
+/// Dio-backed [TodoRemoteSource] driven by [todoApiProvider].
+///
+/// Copied from [todoRemoteSource].
+@ProviderFor(todoRemoteSource)
+final todoRemoteSourceProvider = Provider<TodoRemoteSource>.internal(
+  todoRemoteSource,
+  name: r'todoRemoteSourceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$todoRemoteSourceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef TodoRemoteSourceRef = ProviderRef<TodoRemoteSource>;
+String _$todoDataSourceHash() => r'ac33e1424b4d13e4a5716ffc19afbe5230ad6832';
+
+/// Default aggregate data source. Wires [TodoDataSourceImpl] to
+/// [todoRemoteSourceProvider] so the full Clean Architecture data flow runs
 /// end-to-end against a real HTTP API.
 ///
 /// Tests and offline development override this provider with
-/// [todoMockDataSourceProvider].
+/// [todoMockSourceProvider].
 ///
 /// Copied from [todoDataSource].
 @ProviderFor(todoDataSource)
@@ -50,30 +69,25 @@ final todoDataSourceProvider = Provider<TodoDataSource>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoDataSourceRef = ProviderRef<TodoDataSource>;
-String _$todoMockDataSourceHash() =>
-    r'9ce9d6860f77a707cd0dd4f3884c9812e6212143';
+String _$todoMockSourceHash() => r'6e89ea0192c8a8c86f67178dce9568af0a42794d';
 
 /// In-memory data source used by tests and as an offline fallback.
 ///
-/// Lives behind its own provider so test setup can inject a zero-latency
-/// instance and production can swap in the remote source without code
-/// changes.
-///
-/// Copied from [todoMockDataSource].
-@ProviderFor(todoMockDataSource)
-final todoMockDataSourceProvider = Provider<TodoDataSource>.internal(
-  todoMockDataSource,
-  name: r'todoMockDataSourceProvider',
+/// Copied from [todoMockSource].
+@ProviderFor(todoMockSource)
+final todoMockSourceProvider = Provider<TodoDataSource>.internal(
+  todoMockSource,
+  name: r'todoMockSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$todoMockDataSourceHash,
+      : _$todoMockSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef TodoMockDataSourceRef = ProviderRef<TodoDataSource>;
+typedef TodoMockSourceRef = ProviderRef<TodoDataSource>;
 String _$todoRepositoryHash() => r'13e71c261f2315909607336d5afc5750648fd29c';
 
 /// See also [todoRepository].

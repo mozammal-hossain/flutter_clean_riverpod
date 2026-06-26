@@ -3,19 +3,25 @@
 > Sensitive paths require a code-owner review.
 > Part of the [AGENTS.md](../../AGENTS.md) index.
 
+## Owners
+
+Default owner for the whole repo: `@mozammal-hossain` (see `*` rule in `CODEOWNERS`).
+
 ## Gated paths
 
 ```
-/lib/core/network/        @security-owner @networking-owner
-/lib/core/storage/        @security-owner
-/lib/domain/auth/         @security-owner
-/lib/data/auth/           @security-owner
-/lib/presentation/auth/   @security-owner
-/android/app/build.gradle.kts  @mobile-owner
-/.github/                 @platform-owner
+*                               @mozammal-hossain
+/lib/core/network/              @mozammal-hossain
+/lib/core/storage/              @mozammal-hossain
+/lib/domain/auth/               @mozammal-hossain
+/lib/data/auth/                 @mozammal-hossain
+/lib/presentation/auth/         @mozammal-hossain
+/android/app/build.gradle.kts   @mozammal-hossain
+/android/app/proguard-rules.pro @mozammal-hossain
+/.github/                       @mozammal-hossain
 ```
 
-(Verify the exact owners in `CODEOWNERS` — the list above is the canonical pattern.)
+(Verify the exact owners in `CODEOWNERS` — the list above mirrors the file.)
 
 ## Why these are gated
 

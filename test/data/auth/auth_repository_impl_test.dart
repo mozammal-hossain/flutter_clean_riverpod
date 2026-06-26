@@ -1,6 +1,6 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/storage/secure_storage_service.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/auth_me_response.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
@@ -13,7 +13,7 @@ import 'package:mocktail/mocktail.dart';
 
 class _MockFlutterSecureStorage extends Mock implements FlutterSecureStorage {}
 
-class _MockAuthRemoteDataSource extends Mock implements AuthRemoteDataSource {}
+class _MockAuthDataSource extends Mock implements AuthDataSource {}
 
 void main() {
   setUpAll(() {
@@ -23,18 +23,15 @@ void main() {
 
   group('AuthRepositoryImpl', () {
     late _MockFlutterSecureStorage storage;
-    late _MockAuthRemoteDataSource remote;
+    late _MockAuthDataSource dataSource;
     late SecureStorageService service;
     late AuthRepositoryImpl repository;
 
     setUp(() {
       storage = _MockFlutterSecureStorage();
-      remote = _MockAuthRemoteDataSource();
+      dataSource = _MockAuthDataSource();
       service = SecureStorageService(storage: storage);
-      repository = AuthRepositoryImpl(
-        remoteDataSource: remote,
-        storage: service,
-      );
+      repository = AuthRepositoryImpl(dataSource: dataSource, storage: service);
 
       when(
         () => storage.write(
@@ -51,7 +48,7 @@ void main() {
     });
 
     test('login persists tokens and returns AuthUser', () async {
-      when(() => remote.login(request: any(named: 'request'))).thenAnswer(
+      when(() => dataSource.login(request: any(named: 'request'))).thenAnswer(
         (_) async => const LoginResponse(
           accessToken: 'fake.access',
           refreshToken: 'fake.refresh',
@@ -88,7 +85,7 @@ void main() {
     test(
       'login falls back to deterministic id when server omits user fields',
       () async {
-        when(() => remote.login(request: any(named: 'request'))).thenAnswer(
+        when(() => dataSource.login(request: any(named: 'request'))).thenAnswer(
           (_) async => const LoginResponse(accessToken: 'fake.access'),
         );
 
@@ -110,7 +107,7 @@ void main() {
 
     test('login maps ValidationFailure to InvalidCredentialsFailure', () async {
       when(
-        () => remote.login(request: any(named: 'request')),
+        () => dataSource.login(request: any(named: 'request')),
       ).thenThrow(const ValidationFailure());
 
       final result = await repository.login(
@@ -135,7 +132,7 @@ void main() {
       'login maps UnauthorizedFailure to InvalidCredentialsFailure',
       () async {
         when(
-          () => remote.login(request: any(named: 'request')),
+          () => dataSource.login(request: any(named: 'request')),
         ).thenThrow(const UnauthorizedFailure());
 
         final result = await repository.login(
@@ -169,7 +166,7 @@ void main() {
       when(
         () => storage.read(key: 'refresh_token'),
       ).thenAnswer((_) async => 'old.refresh');
-      when(() => remote.refresh(request: any(named: 'request'))).thenAnswer(
+      when(() => dataSource.refresh(request: any(named: 'request'))).thenAnswer(
         (_) async => const RefreshTokenResponse(
           accessToken: 'new.access',
           refreshToken: 'new.refresh',
@@ -227,14 +224,14 @@ void main() {
           (_) => fail('Expected success'),
           (user) => expect(user, isNull),
         );
-        verifyNever(() => remote.getMe());
+        verifyNever(() => dataSource.getMe());
       });
 
       test('fetches user from network when access token is present', () async {
         when(
           () => storage.read(key: 'access_token'),
         ).thenAnswer((_) async => 'fake.access');
-        when(() => remote.getMe()).thenAnswer(
+        when(() => dataSource.getMe()).thenAnswer(
           (_) async => const AuthMeResponse(
             id: 1,
             email: 'emily.johnson@x.dummyjson.com',
@@ -250,7 +247,7 @@ void main() {
           expect(user!.id, '1');
           expect(user.email, 'emily.johnson@x.dummyjson.com');
         });
-        verify(() => remote.getMe()).called(1);
+        verify(() => dataSource.getMe()).called(1);
         verify(
           () => storage.write(
             key: 'user_email',
@@ -263,7 +260,7 @@ void main() {
         when(
           () => storage.read(key: 'access_token'),
         ).thenAnswer((_) async => 'fake.access');
-        when(() => remote.getMe()).thenThrow(const NetworkFailure());
+        when(() => dataSource.getMe()).thenThrow(const NetworkFailure());
         when(
           () => storage.read(key: 'user_id'),
         ).thenAnswer((_) async => 'usr_42');
@@ -287,7 +284,7 @@ void main() {
           when(
             () => storage.read(key: 'access_token'),
           ).thenAnswer((_) async => 'fake.access');
-          when(() => remote.getMe()).thenThrow(const NetworkFailure());
+          when(() => dataSource.getMe()).thenThrow(const NetworkFailure());
 
           final result = await repository.getCurrentUser();
 

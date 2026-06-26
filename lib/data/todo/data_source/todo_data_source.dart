@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_source.dart';
 
-/// Contract every Todo data source must satisfy. The mock implementation
-/// in `TodoMockDataSource` and the Retrofit-backed
-/// `TodoRemoteDataSourceImpl` both satisfy this interface so the repository
-/// can swap them via a single provider override.
+/// Aggregate data-source contract for todo. The repository depends on this
+/// type — not on [TodoRemoteSource] directly.
 abstract interface class TodoDataSource {
   Future<List<TodoDto>> fetchAll({CancelToken? cancelToken});
   Future<TodoDto> create(String title, {CancelToken? cancelToken});

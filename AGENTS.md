@@ -52,6 +52,12 @@
 8. **CI** runs on `release*` tags. **CODEOWNERS** gates `core/network/`,
    `core/storage/`, `domain/auth/`, `data/auth/`, `presentation/auth/`,
    Android Gradle, `.github/`.
+9. **Data source layout**: repositories depend on
+   `data_source/<feature>_data_source.dart` (aggregate contract), not on
+   remote/mock/local types. Remote lives in `remote/<feature>_remote_source.dart`;
+   mocks in `mock/`; local cache in `local/`. The aggregate impl
+   (`<feature>_data_source_impl.dart`) constructor-injects `_remoteSource`.
+   See [refactor-data-source-structure.md](./docs/tasks/refactor-data-source-structure.md).
 
 ## Interaction Guidelines
 
@@ -117,6 +123,7 @@ change. Each is independent.
 | [release-tag.md](./docs/tasks/release-tag.md) | "Cutting a release, what's the tag / CI / signing flow?" |
 | [investigate-401-storm.md](./docs/tasks/investigate-401-storm.md) | "Users are getting logged out -- where do I look?" |
 | [change-theme-or-colors.md](./docs/tasks/change-theme-or-colors.md) | "I need to change the seed color or a design token." |
+| [refactor-data-source-structure.md](./docs/tasks/refactor-data-source-structure.md) | "Where do remote / mock / aggregate data sources live?" |
 
 ## Where to look when...
 
@@ -133,6 +140,7 @@ change. Each is independent.
 | I want to cut a release. | [ci.md](./docs/agents/ci.md) + [release-tag.md](./docs/tasks/release-tag.md) |
 | I want to change colors or the theme toggle. | [styling.md](./docs/agents/styling.md) + [change-theme-or-colors.md](./docs/tasks/change-theme-or-colors.md) |
 | I'm touching a sensitive path. | [code-ownership.md](./docs/agents/code-ownership.md) |
+| I don't know where a data source file belongs. | [refactor-data-source-structure.md](./docs/tasks/refactor-data-source-structure.md) |
 
 ## Package Management
 
@@ -249,6 +257,27 @@ flowchart LR
 - Wire format -> entity translation lives in
   `lib/data/<x>/mapper/<x>_mapper.dart`. Never import a DTO from
   `domain/`.
+
+## Data source layout (`lib/data/<feature>/`)
+
+```
+lib/data/<feature>/
+├── mock/           # optional — <feature>_mock_source.dart (implements aggregate)
+├── local/          # optional — <feature>_local_source.dart
+├── remote/         # <feature>_remote_source.dart (Retrofit + guard)
+├── data_source/    # <feature>_data_source.dart + _impl (facade)
+├── api/            # Retrofit @RestApi contracts
+├── mapper/  model/  repository_impl/
+```
+
+- **Repository** depends on `<Feature>DataSource` only (aggregate contract).
+- **`<Feature>DataSourceImpl`** constructor-injects `_remoteSource` (and
+  optionally `_localSource` later).
+- **`remote/<feature>_remote_source.dart`** — contract + impl in one file;
+  talks to `api/` via Dio + `guard`.
+- **`mock/<feature>_mock_source.dart`** — implements `<Feature>DataSource`
+  directly; swap via provider override in tests.
+- Full migration notes: [refactor-data-source-structure.md](./docs/tasks/refactor-data-source-structure.md).
 
 ## Logging
 

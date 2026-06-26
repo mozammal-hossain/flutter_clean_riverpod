@@ -4,12 +4,14 @@ import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_request.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/remote/auth_remote_source.dart';
 
-/// Network-side contract for auth.
-abstract interface class AuthRemoteDataSource {
+/// Aggregate data-source contract for auth. The repository depends on this
+/// type — not on [AuthRemoteSource] directly.
+abstract interface class AuthDataSource {
   /// Exchanges username + password for an access token (and optional refresh
   /// token). Implementations should persist nothing — the repository owns
-  /// secure-storage.
+  /// secure storage.
   Future<LoginResponse> login({required LoginRequest request});
 
   /// Trades a refresh token for a fresh access token. May throw

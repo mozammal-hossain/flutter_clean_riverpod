@@ -1,6 +1,6 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_mock_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/mock/todo_mock_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/repository_impl/todo_repository_impl.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,7 +12,7 @@ void main() {
 
     setUp(() {
       // Zero latency so tests don't sleep.
-      dataSource = TodoMockDataSource(latency: Duration.zero);
+      dataSource = TodoMockSource(latency: Duration.zero);
       repository = TodoRepositoryImpl(dataSource: dataSource);
     });
 

@@ -4,8 +4,9 @@ import 'package:flutter_clean_riverpod_boilerplate/core/network/auth_interceptor
 import 'package:flutter_clean_riverpod_boilerplate/core/network/dio_client.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/storage/secure_storage_service.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/api/auth_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/remote/auth_remote_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/repository_impl/auth_repository_impl.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_user.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/auth/repositories/auth_repository.dart';
@@ -42,20 +43,27 @@ AuthApi authApi(Ref ref) {
   return AuthApi(ref.watch(dioProvider));
 }
 
-/// Dio-backed [AuthRemoteDataSource] driven by [authApiProvider].
+/// Dio-backed [AuthRemoteSource] driven by [authApiProvider].
 ///
 /// Tests can override this provider with a fake implementation.
 @Riverpod(keepAlive: true)
-AuthRemoteDataSource authRemoteDataSource(Ref ref) {
-  return AuthRemoteDataSourceImpl(ref.watch(authApiProvider));
+AuthRemoteSource authRemoteSource(Ref ref) {
+  return AuthRemoteSourceImpl(ref.watch(authApiProvider));
+}
+
+/// Aggregate auth data source — facade over [authRemoteSourceProvider].
+@Riverpod(keepAlive: true)
+AuthDataSource authDataSource(Ref ref) {
+  return AuthDataSourceImpl(ref.watch(authRemoteSourceProvider));
 }
 
 /// Singleton repository bound to the active storage implementation.
 @Riverpod(keepAlive: true)
 AuthRepository authRepository(Ref ref) {
-  final storage = ref.watch(secureStorageServiceProvider);
-  final remote = ref.watch(authRemoteDataSourceProvider);
-  return AuthRepositoryImpl(remoteDataSource: remote, storage: storage);
+  return AuthRepositoryImpl(
+    dataSource: ref.watch(authDataSourceProvider),
+    storage: ref.watch(secureStorageServiceProvider),
+  );
 }
 
 /// Domain-layer use case wrapping the repository's login.

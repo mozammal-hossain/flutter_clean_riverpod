@@ -1,7 +1,7 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/logger/app_logger.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/storage/secure_storage_service.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/mapper/auth_mapper.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_request.dart';
@@ -9,12 +9,12 @@ import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_use
 import 'package:flutter_clean_riverpod_boilerplate/domain/auth/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-/// Real [AuthRepository] backed by [AuthRemoteDataSource] and secure storage.
+/// Real [AuthRepository] backed by [AuthDataSource] and secure storage.
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
-    required AuthRemoteDataSource remoteDataSource,
+    required AuthDataSource dataSource,
     required SecureStorageService storage,
-  }) : _remote = remoteDataSource,
+  }) : _dataSource = dataSource,
        _storage = storage;
 
   static const _accessTokenKey = 'access_token';
@@ -22,7 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
   static const _userIdKey = 'user_id';
   static const _userEmailKey = 'user_email';
 
-  final AuthRemoteDataSource _remote;
+  final AuthDataSource _dataSource;
   final SecureStorageService _storage;
 
   @override
@@ -31,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final response = await _remote.login(
+      final response = await _dataSource.login(
         request: LoginRequest(username: username, password: password),
       );
 
@@ -100,7 +100,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       try {
-        final response = await _remote.getMe();
+        final response = await _dataSource.getMe();
         final user = response.toDomain();
         await _storage.write(_userIdKey, user.id);
         await _storage.write(_userEmailKey, user.email);
@@ -129,7 +129,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return const Left(UnauthorizedFailure('No refresh token stored'));
     }
     try {
-      final response = await _remote.refresh(
+      final response = await _dataSource.refresh(
         request: RefreshTokenRequest(refreshToken: refresh),
       );
       await _storage.write(_accessTokenKey, response.accessToken);

@@ -1,25 +1,40 @@
 import 'package:dio/dio.dart';
 
+import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/network/auth_interceptor.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/network/network_guard.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/api/auth_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/data_source/auth_remote_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/auth_me_response.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_request.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_response.dart';
 
-/// Retrofit-backed `AuthRemoteDataSource`.
+/// Network-side contract for auth.
+abstract interface class AuthRemoteSource {
+  /// Exchanges username + password for an access token (and optional refresh
+  /// token). Implementations should persist nothing — the repository owns
+  /// secure storage.
+  Future<LoginResponse> login({required LoginRequest request});
+
+  /// Trades a refresh token for a fresh access token. May throw
+  /// [UnauthorizedFailure] if the refresh token is no longer valid.
+  Future<RefreshTokenResponse> refresh({required RefreshTokenRequest request});
+
+  /// Returns the currently authenticated user from `GET /auth/me`.
+  Future<AuthMeResponse> getMe();
+}
+
+/// Retrofit-backed [AuthRemoteSource].
 ///
-/// Targets the configured `/auth/*` endpoints through `AuthApi`. Network /
-/// transport errors are translated into domain failures by `guard` so the
+/// Targets the configured `/auth/*` endpoints through [AuthApi]. Network /
+/// transport errors are translated into domain failures by [guard] so the
 /// repository can simply re-throw and let its catch block build the `Either`.
 ///
 /// Methods accept an optional [CancelToken] so a Riverpod controller can
 /// abort the request when its widget is disposed mid-flight.
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  AuthRemoteDataSourceImpl(this._api);
+class AuthRemoteSourceImpl implements AuthRemoteSource {
+  AuthRemoteSourceImpl(this._api);
 
   final AuthApi _api;
 
@@ -28,7 +43,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required LoginRequest request,
     CancelToken? cancelToken,
   }) => guard(
-    'AuthRemoteDataSource.login',
+    'AuthRemoteSource.login',
     () => _api.login(request, cancelToken: cancelToken),
   );
 
@@ -37,12 +52,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required RefreshTokenRequest request,
     CancelToken? cancelToken,
   }) => guard(
-    'AuthRemoteDataSource.refresh',
+    'AuthRemoteSource.refresh',
     () => _api.refresh(
       request,
       cancelToken: cancelToken,
-      // Mark this request to skip auth header attachment so the
-      // interceptor doesn't attach the expired access token.
       options: Options(
         extra: <String, dynamic>{AuthInterceptor.skipAuthKey: true},
       ),
@@ -51,7 +64,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<AuthMeResponse> getMe({CancelToken? cancelToken}) => guard(
-    'AuthRemoteDataSource.getMe',
+    'AuthRemoteSource.getMe',
     () => _api.getMe(cancelToken: cancelToken),
   );
 }

@@ -2,17 +2,28 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/network/network_guard.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/api/todo_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
 
+/// Network-side contract for todo.
+abstract interface class TodoRemoteSource {
+  Future<List<TodoDto>> fetchAll({CancelToken? cancelToken});
+  Future<TodoDto> create(String title, {CancelToken? cancelToken});
+  Future<TodoDto> toggle(
+    String id, {
+    required bool completed,
+    CancelToken? cancelToken,
+  });
+  Future<void> delete(String id, {CancelToken? cancelToken});
+}
+
 /// Real network-backed implementation that talks to DummyJSON through the
-/// generated `TodoApi` client.
+/// generated [TodoApi] client.
 ///
 /// DummyJSON simulates writes — `add` / `update` / `delete` echo a response
 /// but never mutate server state. Callers must update local UI optimistically
 /// rather than re-fetching the list after a mutation.
-class TodoRemoteDataSourceImpl implements TodoDataSource {
-  TodoRemoteDataSourceImpl(this._api);
+class TodoRemoteSourceImpl implements TodoRemoteSource {
+  TodoRemoteSourceImpl(this._api);
 
   /// Fallback until the authenticated user id is wired from auth.
   static const defaultUserId = 1;
@@ -21,14 +32,14 @@ class TodoRemoteDataSourceImpl implements TodoDataSource {
 
   @override
   Future<List<TodoDto>> fetchAll({CancelToken? cancelToken}) =>
-      guard('TodoRemoteDataSourceImpl.fetchAll', () async {
+      guard('TodoRemoteSource.fetchAll', () async {
         final response = await _api.getTodos(cancelToken: cancelToken);
         return response.todos;
       });
 
   @override
   Future<TodoDto> create(String title, {CancelToken? cancelToken}) => guard(
-    'TodoRemoteDataSourceImpl.create',
+    'TodoRemoteSource.create',
     () => _api.createTodo(
       CreateTodoRequestDto(todo: title, userId: defaultUserId),
       cancelToken: cancelToken,
@@ -41,7 +52,7 @@ class TodoRemoteDataSourceImpl implements TodoDataSource {
     required bool completed,
     CancelToken? cancelToken,
   }) => guard(
-    'TodoRemoteDataSourceImpl.toggle',
+    'TodoRemoteSource.toggle',
     () => _api.updateTodo(
       id,
       UpdateTodoRequestDto(completed: completed),
@@ -51,7 +62,7 @@ class TodoRemoteDataSourceImpl implements TodoDataSource {
 
   @override
   Future<void> delete(String id, {CancelToken? cancelToken}) =>
-      guard('TodoRemoteDataSourceImpl.delete', () async {
+      guard('TodoRemoteSource.delete', () async {
         await _api.deleteTodo(id, cancelToken: cancelToken);
       });
 }

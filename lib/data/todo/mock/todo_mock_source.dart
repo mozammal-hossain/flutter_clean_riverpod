@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_source.dart';
 
 /// In-memory data source used to demonstrate the full Clean Architecture
 /// flow without depending on a real backend.
-class TodoMockDataSource implements TodoDataSource {
-  TodoMockDataSource({Duration? latency})
+class TodoMockSource implements TodoDataSource {
+  TodoMockSource({Duration? latency})
     : _latency = latency ?? const Duration(milliseconds: 300) {
     _seed();
   }
@@ -31,7 +31,7 @@ class TodoMockDataSource implements TodoDataSource {
     final dto = TodoDto(
       id: _nextId++,
       todo: title,
-      userId: TodoRemoteDataSourceImpl.defaultUserId,
+      userId: TodoRemoteSourceImpl.defaultUserId,
     );
     _todos.insert(0, dto);
     return dto;

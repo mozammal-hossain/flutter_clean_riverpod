@@ -70,11 +70,15 @@ lib/domain/<feature>/
   repositories/<feature>_repository.dart
   usecases/<verb>_<feature>_use_case.dart
 lib/data/<feature>/
-  api/<feature>_api.dart
-  data_source/<feature>_remote_data_source.dart
-  mapper/<feature>_mapper.dart
-  model/<feature>_dto.dart
-  repository_impl/<feature>_repository_impl.dart
+├── api/<feature>_api.dart
+├── remote/<feature>_remote_source.dart
+├── data_source/<feature>_data_source.dart
+├── data_source/<feature>_data_source_impl.dart
+├── mock/<feature>_mock_source.dart              # only if needed
+├── local/<feature>_local_source.dart            # only if needed
+├── mapper/<feature>_mapper.dart
+├── model/<feature>_dto.dart
+└── repository_impl/<feature>_repository_impl.dart
 lib/presentation/<feature>/
   riverpod/<feature>_providers.dart
   <feature>_page.dart

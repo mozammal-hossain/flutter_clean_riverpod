@@ -29,29 +29,47 @@ final authApiProvider = Provider<AuthApi>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef AuthApiRef = ProviderRef<AuthApi>;
-String _$authRemoteDataSourceHash() =>
-    r'08908677f752fe5d6953f18f935c6de558ffdf24';
+String _$authRemoteSourceHash() => r'38d71db3eac60c41a044aaaf501390e6b700a099';
 
-/// Dio-backed [AuthRemoteDataSource] driven by [authApiProvider].
+/// Dio-backed [AuthRemoteSource] driven by [authApiProvider].
 ///
 /// Tests can override this provider with a fake implementation.
 ///
-/// Copied from [authRemoteDataSource].
-@ProviderFor(authRemoteDataSource)
-final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>.internal(
-  authRemoteDataSource,
-  name: r'authRemoteDataSourceProvider',
+/// Copied from [authRemoteSource].
+@ProviderFor(authRemoteSource)
+final authRemoteSourceProvider = Provider<AuthRemoteSource>.internal(
+  authRemoteSource,
+  name: r'authRemoteSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$authRemoteDataSourceHash,
+      : _$authRemoteSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef AuthRemoteDataSourceRef = ProviderRef<AuthRemoteDataSource>;
-String _$authRepositoryHash() => r'd0288d4114cfa1654735dbd917a95cb8a563c0f8';
+typedef AuthRemoteSourceRef = ProviderRef<AuthRemoteSource>;
+String _$authDataSourceHash() => r'901954b2767acd5dcc1475865b6e5904ef61db91';
+
+/// Aggregate auth data source — facade over [authRemoteSourceProvider].
+///
+/// Copied from [authDataSource].
+@ProviderFor(authDataSource)
+final authDataSourceProvider = Provider<AuthDataSource>.internal(
+  authDataSource,
+  name: r'authDataSourceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$authDataSourceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef AuthDataSourceRef = ProviderRef<AuthDataSource>;
+String _$authRepositoryHash() => r'9f9acb499bfe3571831f47b6b5554f7bcd31a42a';
 
 /// Singleton repository bound to the active storage implementation.
 ///

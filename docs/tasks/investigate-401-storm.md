@@ -42,7 +42,7 @@
 ## Escalation
 
 - If `core/network/` change is required: open PR, request
-  `@security-owner` / `@networking-owner` review.
+  `@mozammal-hossain` review.
 - If `domain/auth/`, `data/auth/`, or `presentation/auth/` change is required: same.
 - If env-only: see [add-env-var.md](./add-env-var.md).
 

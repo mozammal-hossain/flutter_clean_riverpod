@@ -3,9 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/network/dio_client.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/api/todo_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_mock_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/mock/todo_mock_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/repository_impl/todo_repository_impl.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
@@ -25,25 +26,27 @@ TodoApi todoApi(Ref ref) {
   return TodoApi(ref.watch(dioProvider));
 }
 
-/// Default data source. Wires [TodoRemoteDataSourceImpl] to
-/// [todoApiProvider] so the full Clean Architecture data flow runs
+/// Dio-backed [TodoRemoteSource] driven by [todoApiProvider].
+@Riverpod(keepAlive: true)
+TodoRemoteSource todoRemoteSource(Ref ref) {
+  return TodoRemoteSourceImpl(ref.watch(todoApiProvider));
+}
+
+/// Default aggregate data source. Wires [TodoDataSourceImpl] to
+/// [todoRemoteSourceProvider] so the full Clean Architecture data flow runs
 /// end-to-end against a real HTTP API.
 ///
 /// Tests and offline development override this provider with
-/// [todoMockDataSourceProvider].
+/// [todoMockSourceProvider].
 @Riverpod(keepAlive: true)
 TodoDataSource todoDataSource(Ref ref) {
-  return TodoRemoteDataSourceImpl(ref.watch(todoApiProvider));
+  return TodoDataSourceImpl(ref.watch(todoRemoteSourceProvider));
 }
 
 /// In-memory data source used by tests and as an offline fallback.
-///
-/// Lives behind its own provider so test setup can inject a zero-latency
-/// instance and production can swap in the remote source without code
-/// changes.
 @Riverpod(keepAlive: true)
-TodoDataSource todoMockDataSource(Ref ref) {
-  return TodoMockDataSource();
+TodoDataSource todoMockSource(Ref ref) {
+  return TodoMockSource();
 }
 
 @Riverpod(keepAlive: true)

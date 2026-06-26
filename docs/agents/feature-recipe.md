@@ -25,10 +25,15 @@ lib/domain/<feature>/
 lib/data/<feature>/
 ├── api/
 │   └── <feature>_api.dart
+├── remote/
+│   └── <feature>_remote_source.dart          # Retrofit + guard
 ├── data_source/
-│   ├── <feature>_remote_data_source.dart
-│   ├── <feature>_remote_data_source_impl.dart
-│   └── <feature>_local_data_source.dart      # only if needed
+│   ├── <feature>_data_source.dart            # aggregate contract (repo depends on this)
+│   └── <feature>_data_source_impl.dart       # facade; holds _remoteSource
+├── mock/                                     # only if needed
+│   └── <feature>_mock_source.dart
+├── local/                                    # only if needed
+│   └── <feature>_local_source.dart
 ├── mapper/
 │   └── <feature>_mapper.dart
 ├── model/
@@ -58,8 +63,11 @@ lib/presentation/<feature>/
 
 - DTOs (`lib/data/<feature>/model/<feature>_dto.dart`) match the wire schema.
 - Mappers (`lib/data/<feature>/mapper/<feature>_mapper.dart`) convert DTO ↔ entity. Use `dynamic` calls only inside mappers — see [analyzer-overrides.md](./analyzer-overrides.md).
-- Remote data source talks to Dio via the central `dioClientProvider`.
-- Repository impl maps `DioException` → `Failure` and returns `Either`.
+- Remote data source talks to Dio via the central `dioClientProvider` —
+  lives in `remote/<feature>_remote_source.dart` and is injected into
+  `<feature>_data_source_impl.dart`.
+- Repository impl depends on `<Feature>DataSource` (aggregate), maps
+  `DioException` → `Failure` and returns `Either`.
 
 ## Step 5 — Providers
 

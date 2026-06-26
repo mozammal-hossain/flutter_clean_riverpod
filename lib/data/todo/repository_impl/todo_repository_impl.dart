@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_remote_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
 import 'package:flutter_clean_riverpod_boilerplate/data/todo/mapper/todo_mapper.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
