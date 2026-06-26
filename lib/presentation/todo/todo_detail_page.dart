@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart';
-import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
-import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_error_widget.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_loading_indicator.dart';
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
 import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/riverpod/todo_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/todo_detail_card_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Detail page for a single Todo, reached via `/todos/:id` (e.g. from a
@@ -57,7 +56,7 @@ class TodoDetailPage extends ConsumerWidget {
                   ref.read(todoListControllerProvider.notifier).refresh(),
             );
           }
-          return _Detail(
+          return TodoDetailCardWidget(
             todo: match,
             highlightTitle: extra?['focus'] == _focusTitleKey,
           );
@@ -71,73 +70,5 @@ class TodoDetailPage extends ConsumerWidget {
       if (todo.id == id) return todo;
     }
     return null;
-  }
-}
-
-class _Detail extends StatelessWidget {
-  const _Detail({required this.todo, required this.highlightTitle});
-
-  final Todo todo;
-  final bool highlightTitle;
-
-  @override
-  Widget build(BuildContext context) {
-    final baseTitle = context.textTheme.headlineSmall;
-    final titleStyle = baseTitle?.copyWith(
-      color: highlightTitle ? context.colors.primary : null,
-      fontWeight: highlightTitle ? FontWeight.bold : baseTitle.fontWeight,
-    );
-
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 480),
-        child: Padding(
-          padding: AppSize.pagePadding,
-          child: Card(
-            child: Padding(
-              padding: AppSize.cardPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Todo #${todo.id}',
-                    style: context.textTheme.labelMedium?.copyWith(
-                      color: context.colors.outline,
-                    ),
-                  ),
-                  SizedBox(height: AppSize.spaceSm),
-                  Text(
-                    todo.title,
-                    style: todo.completed
-                        ? context.textStyles.strikeThrough
-                        : titleStyle,
-                  ),
-                  SizedBox(height: AppSize.spaceLg),
-                  Row(
-                    children: [
-                      Icon(
-                        todo.completed
-                            ? Icons.check_circle
-                            : Icons.radio_button_unchecked,
-                        size: AppSize.iconMd,
-                        color: todo.completed
-                            ? context.colors.primary
-                            : context.colors.outline,
-                      ),
-                      SizedBox(width: AppSize.spaceSm),
-                      Text(
-                        todo.completed ? 'Completed' : 'Pending',
-                        style: context.textTheme.bodyMedium,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }

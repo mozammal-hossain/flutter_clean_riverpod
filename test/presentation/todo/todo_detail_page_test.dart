@@ -6,7 +6,7 @@ import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo
 import 'package:flutter_clean_riverpod_boilerplate/l10n/generated/app_localizations.dart';
 import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/riverpod/auth_providers.dart';
 import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/riverpod/todo_providers.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/todo_detail_page.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/todo_detail_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';

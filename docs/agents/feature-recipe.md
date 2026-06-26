@@ -39,8 +39,11 @@ lib/data/<feature>/
 lib/presentation/<feature>/
 ├── riverpod/
 │   └── <feature>_providers.dart
+├── <feature>_page.dart              # entry widget at feature root
 └── widgets/
-    └── <feature>_page.dart
+    ├── <section>_widget.dart        # one public widget class per file
+    └── dialogs/                     # optional
+        └── <name>_dialog.dart
 ```
 
 ## Step 2 — Domain entity
@@ -69,6 +72,9 @@ Do **not** import this file from `core/`.
 
 ## Step 6 — UI
 
+- Page at `lib/presentation/<feature>/<feature>_page.dart`; decompose UI into
+  `<Feature><Section>Widget` classes under `widgets/` (see
+  [split-presentation-widgets.md](../tasks/split-presentation-widgets.md)).
 - Sealed `*State` in the controller.
 - Exhaustive `switch` in the page widget.
 - `AppSize` constants and theme extensions (see [styling.md](./styling.md)).

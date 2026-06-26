@@ -10,9 +10,11 @@
 
 ## Steps
 
-1. **Page file**: `lib/presentation/<feature>/widgets/<screen>_page.dart`.
-   Small private `Widget` classes, exhaustive `switch` on the controller
-   state. See [styling.md](../agents/styling.md).
+1. **Page file**: `lib/presentation/<feature>/<screen>_page.dart` at the feature
+   root. Decompose UI into `<Feature><Section>Widget` classes under
+   `widgets/`; exhaustive `switch` on the controller state. See
+   [split-presentation-widgets.md](./split-presentation-widgets.md) and
+   [styling.md](../agents/styling.md).
 2. **Controller**: in `lib/presentation/<feature>/riverpod/<feature>_providers.dart`
    as a `@riverpod` Notifier with sealed `*State`.
 3. **Provider**: in `lib/presentation/<feature>/riverpod/<feature>_providers.dart`.

@@ -77,7 +77,8 @@ lib/data/<feature>/
   repository_impl/<feature>_repository_impl.dart
 lib/presentation/<feature>/
   riverpod/<feature>_providers.dart
-  widgets/<feature>_page.dart
+  <feature>_page.dart
+  widgets/<section>_widget.dart
 ```
 
 Then follow the steps in [feature-recipe.md](./feature-recipe.md).
