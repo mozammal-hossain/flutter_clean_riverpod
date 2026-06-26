@@ -22,6 +22,9 @@ abstract class TodoApi {
     CancelToken? cancelToken,
   });
 
+  @GET(TodoEndpoints.byId)
+  Future<TodoDto> getTodo(@Path('id') String id, {CancelToken? cancelToken});
+
   @POST(TodoEndpoints.create)
   Future<TodoDto> createTodo(
     @Body() CreateTodoRequestDto body, {

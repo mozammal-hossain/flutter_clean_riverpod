@@ -17,7 +17,7 @@ import 'package:flutter_clean_riverpod_boilerplate/domain/todo/usecases/toggle_t
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'todo_providers.g.dart';
+part 'todo_list_providers.g.dart';
 
 /// Retrofit-generated `TodoApi` bound to the configured `Dio`. Shares the
 /// Dio's interceptors (auth + logging) with the rest of the app.
@@ -74,8 +74,8 @@ DeleteTodoUseCase deleteTodoUseCase(Ref ref) {
   return DeleteTodoUseCase(ref.watch(todoRepositoryProvider));
 }
 
-/// Sealed state used by the UI. Each variant tells the page what to render
-/// without forcing consumers to handle nulls.
+/// Sealed state used by the list UI. Each variant tells the page what to
+/// render without forcing consumers to handle nulls.
 sealed class TodoListState {
   const TodoListState();
 }
@@ -121,10 +121,6 @@ class TodoListController extends _$TodoListController {
     final result = await ref
         .read(getTodosUseCaseProvider)
         .call(cancelToken: _cancelToken);
-    // Cancellation arrives as a `DioExceptionType.cancel` which the data
-    // source maps through `guard`; the AsyncValue layer surfaces it as
-    // an error to the page. We swallow it here so a disposed controller
-    // does not flash an error before being torn down.
     if (_cancelToken.isCancelled) {
       return const TodoInitial();
     }

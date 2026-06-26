@@ -25,6 +25,26 @@ void main() {
       expect(todos.any((t) => t.title == 'Wire up Riverpod providers'), isTrue);
     });
 
+    test('getTodo returns a single domain entity by id', () async {
+      final result = await repository.getTodo('1');
+
+      expect(result.isRight(), isTrue);
+      result.fold((_) => fail('Expected success'), (todo) {
+        expect(todo.id, '1');
+        expect(todo.title, 'Read the Clean Architecture book');
+      });
+    });
+
+    test('getTodo returns NotFoundFailure for unknown id', () async {
+      final result = await repository.getTodo('does-not-exist');
+
+      expect(result.isLeft(), isTrue);
+      result.fold(
+        (failure) => expect(failure, isA<NotFoundFailure>()),
+        (_) => fail('Expected failure'),
+      );
+    });
+
     test('createTodo prepends the new todo to the list', () async {
       final initialLength = await repository.getTodos().then(
         (r) => r.fold((_) => 0, (todos) => todos.length),

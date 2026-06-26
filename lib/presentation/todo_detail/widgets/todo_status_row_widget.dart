@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
 
@@ -10,6 +11,8 @@ class TodoStatusRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Row(
       children: [
         Icon(
@@ -19,7 +22,9 @@ class TodoStatusRowWidget extends StatelessWidget {
         ),
         SizedBox(width: AppSize.spaceSm),
         Text(
-          completed ? 'Completed' : 'Pending',
+          completed
+              ? l10n.todoDetailStatusCompleted
+              : l10n.todoDetailStatusPending,
           style: context.textTheme.bodyMedium,
         ),
       ],

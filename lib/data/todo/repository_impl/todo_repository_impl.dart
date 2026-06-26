@@ -35,6 +35,21 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
+  Future<Either<Failure, Todo>> getTodo(
+    String id, {
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      final dto = await _dataSource.fetchById(id, cancelToken: cancelToken);
+      return Right(dto.toDomain());
+    } on Failure catch (failure) {
+      return Left(failure);
+    } on Object {
+      return const Left(UnexpectedFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, Todo>> createTodo(
     String title, {
     CancelToken? cancelToken,

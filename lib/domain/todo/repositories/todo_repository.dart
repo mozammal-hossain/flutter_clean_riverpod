@@ -14,6 +14,7 @@ import 'package:fpdart/fpdart.dart';
 /// signature — so the dependency direction stays one-way.
 abstract interface class TodoRepository {
   Future<Either<Failure, List<Todo>>> getTodos({CancelToken? cancelToken});
+  Future<Either<Failure, Todo>> getTodo(String id, {CancelToken? cancelToken});
   Future<Either<Failure, Todo>> createTodo(
     String title, {
     CancelToken? cancelToken,

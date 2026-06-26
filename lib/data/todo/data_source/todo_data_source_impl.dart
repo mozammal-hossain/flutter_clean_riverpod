@@ -15,6 +15,10 @@ class TodoDataSourceImpl implements TodoDataSource {
       _remoteSource.fetchAll(cancelToken: cancelToken);
 
   @override
+  Future<TodoDto> fetchById(String id, {CancelToken? cancelToken}) =>
+      _remoteSource.fetchById(id, cancelToken: cancelToken);
+
+  @override
   Future<TodoDto> create(String title, {CancelToken? cancelToken}) =>
       _remoteSource.create(title, cancelToken: cancelToken);
 

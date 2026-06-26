@@ -26,6 +26,16 @@ class TodoMockSource implements TodoDataSource {
   }
 
   @override
+  Future<TodoDto> fetchById(String id, {CancelToken? cancelToken}) async {
+    await Future<void>.delayed(_latency);
+    final index = _todos.indexWhere((t) => t.id.toString() == id);
+    if (index < 0) {
+      throw NotFoundFailure('Todo not found: $id');
+    }
+    return _todos[index];
+  }
+
+  @override
   Future<TodoDto> create(String title, {CancelToken? cancelToken}) async {
     await Future<void>.delayed(_latency);
     final dto = TodoDto(

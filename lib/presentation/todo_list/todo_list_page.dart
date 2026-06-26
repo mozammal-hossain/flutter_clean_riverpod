@@ -3,11 +3,11 @@ import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_error_widget.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/widgets/app_loading_indicator.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/riverpod/todo_providers.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/dialogs/create_todo_dialog.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/todo_app_bar_actions_widget.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/todo_empty_state_widget.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/widgets/todo_list_view_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/riverpod/todo_list_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/widgets/dialogs/create_todo_dialog.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/widgets/todo_app_bar_actions_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/widgets/todo_empty_state_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/widgets/todo_list_view_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Renders the list of todos with sealed-state rendering and a logout action

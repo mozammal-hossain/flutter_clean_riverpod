@@ -7,6 +7,7 @@ import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart
 /// Network-side contract for todo.
 abstract interface class TodoRemoteSource {
   Future<List<TodoDto>> fetchAll({CancelToken? cancelToken});
+  Future<TodoDto> fetchById(String id, {CancelToken? cancelToken});
   Future<TodoDto> create(String title, {CancelToken? cancelToken});
   Future<TodoDto> toggle(
     String id, {
@@ -36,6 +37,12 @@ class TodoRemoteSourceImpl implements TodoRemoteSource {
         final response = await _api.getTodos(cancelToken: cancelToken);
         return response.todos;
       });
+
+  @override
+  Future<TodoDto> fetchById(String id, {CancelToken? cancelToken}) => guard(
+    'TodoRemoteSource.fetchById',
+    () => _api.getTodo(id, cancelToken: cancelToken),
+  );
 
   @override
   Future<TodoDto> create(String title, {CancelToken? cancelToken}) => guard(

@@ -7,6 +7,7 @@ import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_
 /// type — not on [TodoRemoteSource] directly.
 abstract interface class TodoDataSource {
   Future<List<TodoDto>> fetchAll({CancelToken? cancelToken});
+  Future<TodoDto> fetchById(String id, {CancelToken? cancelToken});
   Future<TodoDto> create(String title, {CancelToken? cancelToken});
   Future<TodoDto> toggle(
     String id, {

@@ -5,8 +5,8 @@ import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dar
 import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
 import 'package:flutter_clean_riverpod_boilerplate/l10n/generated/app_localizations.dart';
 import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/riverpod/auth_providers.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/riverpod/todo_providers.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo/todo_detail_page.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_detail/todo_detail_page.dart';
+import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/riverpod/todo_list_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,10 +40,8 @@ Widget _wrap({
   );
 }
 
-const _seed = [
-  Todo(id: '1', title: 'buy milk', completed: false),
-  Todo(id: '2', title: 'write tests', completed: true),
-];
+const _todo1 = Todo(id: '1', title: 'buy milk', completed: false);
+const _todo2 = Todo(id: '2', title: 'write tests', completed: true);
 
 void main() {
   late _MockAuthRepository authRepository;
@@ -58,8 +56,15 @@ void main() {
 
     todoRepository = _MockTodoRepository();
     when(
-      () => todoRepository.getTodos(cancelToken: any(named: 'cancelToken')),
-    ).thenAnswer((_) async => const Right<Failure, List<Todo>>(_seed));
+      () => todoRepository.getTodo('1', cancelToken: any(named: 'cancelToken')),
+    ).thenAnswer((_) async => const Right<Failure, Todo>(_todo1));
+    when(
+      () => todoRepository.getTodo('2', cancelToken: any(named: 'cancelToken')),
+    ).thenAnswer((_) async => const Right<Failure, Todo>(_todo2));
+    when(
+      () =>
+          todoRepository.getTodo('999', cancelToken: any(named: 'cancelToken')),
+    ).thenAnswer((_) async => const Left<Failure, Todo>(NotFoundFailure()));
   });
 
   testWidgets('renders the matching todo with id and title', (tester) async {
@@ -75,6 +80,9 @@ void main() {
     expect(find.text('buy milk'), findsOneWidget);
     expect(find.text('Todo #1'), findsOneWidget);
     expect(find.text('Pending'), findsOneWidget);
+    verify(
+      () => todoRepository.getTodo('1', cancelToken: any(named: 'cancelToken')),
+    ).called(1);
   });
 
   testWidgets('renders completed state for completed todos', (tester) async {
@@ -101,9 +109,28 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // Falls back to the localized "Not found" message.
     final l10n = await AppLocalizations.delegate.load(const Locale('en'));
     expect(find.text(l10n.errorNotFound), findsOneWidget);
+  });
+
+  testWidgets('shows an error widget with retry on network failure', (
+    tester,
+  ) async {
+    when(
+      () => todoRepository.getTodo('7', cancelToken: any(named: 'cancelToken')),
+    ).thenAnswer((_) async => const Left<Failure, Todo>(NetworkFailure()));
+
+    await tester.pumpWidget(
+      _wrap(
+        child: const TodoDetailPage(id: '7'),
+        authRepository: authRepository,
+        todoRepository: todoRepository,
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.error_outline), findsOneWidget);
+    expect(find.text('Retry'), findsOneWidget);
   });
 
   testWidgets('accepts a `extra` map (used by push notifications)', (
@@ -118,7 +145,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // The page is happy with the extra map; the title still renders.
     expect(find.text('buy milk'), findsOneWidget);
   });
 }
