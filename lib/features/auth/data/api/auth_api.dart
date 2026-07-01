@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/constants/api_endpoints.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/auth_me_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_request.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/login_response.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_request.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/auth/model/refresh_token_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/auth_me_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/login_request.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/login_response.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/refresh_token_request.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/data/model/refresh_token_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'auth_api.g.dart';

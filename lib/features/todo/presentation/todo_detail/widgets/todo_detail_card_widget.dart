@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_detail/widgets/todo_status_row_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/presentation/todo_detail/widgets/todo_status_row_widget.dart';
 
 /// Card body for a single todo on the detail page.
 class TodoDetailCardWidget extends StatelessWidget {

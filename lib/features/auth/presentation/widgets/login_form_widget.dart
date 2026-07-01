@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/widgets/login_password_field_widget.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/widgets/login_submit_button_widget.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/auth/widgets/login_username_field_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/presentation/widgets/login_password_field_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/presentation/widgets/login_submit_button_widget.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/presentation/widgets/login_username_field_widget.dart';
 
 /// Form fields and submit button for the login page.
 class LoginFormWidget extends StatelessWidget {

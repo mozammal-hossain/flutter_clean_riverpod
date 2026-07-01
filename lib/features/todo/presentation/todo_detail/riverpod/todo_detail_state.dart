@@ -1,5 +1,5 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
 
 /// Sealed state for the todo detail screen.
 sealed class TodoDetailState {

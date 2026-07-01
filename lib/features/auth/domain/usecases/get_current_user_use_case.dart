@@ -1,6 +1,6 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/auth/entities/auth_user.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/auth/repositories/auth_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/entities/auth_user.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 /// Reads the currently logged-in user from secure storage.

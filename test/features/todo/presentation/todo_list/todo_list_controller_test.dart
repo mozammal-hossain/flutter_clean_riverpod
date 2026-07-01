@@ -1,8 +1,8 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo_page.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/riverpod/todo_list_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo_page.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/repositories/todo_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/presentation/todo_list/riverpod/todo_list_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';

@@ -1,5 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/entity_mappable_options.dart';
+import 'package:flutter_clean_riverpod_boilerplate/core/entity_mappable_options.dart';
 
 part 'todo.mapper.dart';
 

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/mapper/todo_mapper.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo_page.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/repositories/todo_repository.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/data_source/todo_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/mapper/todo_mapper.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo_page.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/repositories/todo_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 /// Concrete repository backed by any [TodoDataSource] (mock or remote).

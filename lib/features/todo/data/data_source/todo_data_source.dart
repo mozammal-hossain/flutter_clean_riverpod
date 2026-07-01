@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todos_response_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todos_response_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/remote/todo_remote_source.dart';
 
 /// Aggregate data-source contract for todo. The repository depends on this
 /// type — not on [TodoRemoteSource] directly.

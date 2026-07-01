@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todos_response_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/remote/todo_remote_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/data_source/todo_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todos_response_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/remote/todo_remote_source.dart';
 
 /// Facade that delegates todo network calls to [TodoRemoteSource].
 class TodoDataSourceImpl implements TodoDataSource {

@@ -1,6 +1,6 @@
 import 'package:dart_mappable/dart_mappable.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/entity_mappable_options.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/core/entity_mappable_options.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
 
 part 'todo_page.mapper.dart';
 

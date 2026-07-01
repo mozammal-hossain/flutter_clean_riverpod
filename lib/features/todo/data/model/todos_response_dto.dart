@@ -1,4 +1,4 @@
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'todos_response_dto.freezed.dart';

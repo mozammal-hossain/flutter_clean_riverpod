@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/constants/api_endpoints.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todos_response_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todos_response_dto.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'todo_api.g.dart';

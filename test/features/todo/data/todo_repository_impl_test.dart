@@ -1,7 +1,7 @@
 import 'package:flutter_clean_riverpod_boilerplate/core/error/failures.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/data_source/todo_data_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/mock/todo_mock_source.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/repository_impl/todo_repository_impl.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/data_source/todo_data_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/mock/todo_mock_source.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/repository_impl/todo_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

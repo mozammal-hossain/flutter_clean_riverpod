@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
 import 'package:flutter_clean_riverpod_boilerplate/core/network/network_guard.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/api/todo_api.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todo_dto.dart';
-import 'package:flutter_clean_riverpod_boilerplate/data/todo/model/todos_response_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/api/todo_api.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todo_dto.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/data/model/todos_response_dto.dart';
 
 /// Network-side contract for todo.
 abstract interface class TodoRemoteSource {

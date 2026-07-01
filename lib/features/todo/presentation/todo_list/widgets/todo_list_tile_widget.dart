@@ -3,9 +3,9 @@ import 'package:flutter_clean_riverpod_boilerplate/core/l10n/l10n_extension.dart
 import 'package:flutter_clean_riverpod_boilerplate/core/router/todo_routes.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/app_size.dart';
 import 'package:flutter_clean_riverpod_boilerplate/core/theme/theme_context_extension.dart';
-import 'package:flutter_clean_riverpod_boilerplate/domain/todo/entities/todo.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/riverpod/todo_list_providers.dart';
-import 'package:flutter_clean_riverpod_boilerplate/presentation/todo_list/widgets/dialogs/confirm_delete_dialog.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/domain/entities/todo.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/presentation/todo_list/riverpod/todo_list_providers.dart';
+import 'package:flutter_clean_riverpod_boilerplate/features/todo/presentation/todo_list/widgets/dialogs/confirm_delete_dialog.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
